@@ -2,7 +2,7 @@
 import scrapy
 from scrapy import Request
 from w3lib.html import remove_tags
-
+from qianmu.items import UniversityItem
 
 def filter(html):
     """过滤网页源码中的特殊符号和sup标签"""
@@ -33,12 +33,18 @@ class UniversitySpider(scrapy.Spider):
     def parse_university(self, response):
         response = response.replace(body=filter(response.body))
         wiki_content = response.xpath('//div[@id="wikiContent"]')[0]
-        item = dict(
-            title=wiki_content.xpath('./h1[@class="wikiTitle"]/text()').extract_first(),
+        item = UniversityItem(
+            name=wiki_content.xpath('./h1[@class="wikiTitle"]/text()').get(),
             rank=response.meta['rank'])
         keys = wiki_content.xpath('./div[@class="infobox"]/table//tr/td[1]/p/text()').extract()
         cols = wiki_content.xpath('./div[@class="infobox"]/table//tr/td[2]')
         values = [','.join(col.xpath('.//text()').extract()) for col in cols]
-        item.update(zip(keys, values))
-        self.logger.info(u'%s scraped' % item['title'])
+        data = dict(zip(keys, values))
+        item['country'] = data.get(u'国家', '')
+        item['state'] = data.get(u'州省', '')
+        item['city'] = data.get(u'城市', '')
+        item['undergraduate_num'] = data.get(u'本科生人数', '')
+        item['postgraduate_num'] = data.get(u'研究生人数', '')
+        item['website'] = data.get(u'网址', '')
+        self.logger.info(u'%s scraped' % item['name'])
         yield item

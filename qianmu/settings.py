@@ -16,7 +16,7 @@ NEWSPIDER_MODULE = 'qianmu.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'qianmu (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_0) AppleWebKit/5352 (KHTML, like Gecko) Chrome/14.0.881.0 Safari/5352'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -44,8 +44,8 @@ COOKIES_ENABLED = False
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-  'Accept-Language': 'en',
-  'Content-Encoding': 'gzip',
+  'Accept-Language': 'zh-CN,zh;q=0.8,en;q=0.6',
+  'Content-Encoding': 'gzip, deflate',
   'Content-Type': 'text/html; charset=UTF-8',
 }
 
@@ -69,9 +69,11 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'qianmu.pipelines.QianmuPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'qianmu.pipelines.CheckPipeline': 300,
+   'qianmu.pipelines.RedisPipeline': 301,
+   'qianmu.pipelines.MysqlPipeline': 301,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
