@@ -57,9 +57,20 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'qianmu.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+# Enable or disable downloader middlewares
+# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
+DOWNLOADER_MIDDLEWARES = {
+# 打开下载器中间件
+'qianmu.middlewares.useragent.RandomUserAgentMiddleware': 500,
+#关闭下载器中间件
+'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+# 添加自定义的proxy中间件
+'qianmu.middlewares.proxy.RandomProxyMiddleware': 749,
+}
+
+# 使用代理
+HTTPPROXY_ENABLED = True
+PROXIES = ['http://pc1120:pc1120@123.249.34.10:888', 'http://pc1120:pc1120@1.82.230.113:888']
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
