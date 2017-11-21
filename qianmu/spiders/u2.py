@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy import Request
+from scrapy_redis.spiders import RedisSpider
 from w3lib.html import remove_tags
 from qianmu.items import UniversityItem
 
@@ -10,13 +11,14 @@ def filter(html):
     .replace('\r', '').replace('\t', '')
 
 
-class UniversitySpider(scrapy.Spider):
-    name = 'university'
-    allowed_domains = ['140.143.192.76']
-    start_urls = ['http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D']
+class U2Spider(RedisSpider):
+    """通过redis来传递start_urls"""
+    name = 'u2'
+    # allowed_domains = ['140.143.192.76']
+    # start_urls = ['http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D']
 
     def __init__(self, max_num=0, *args, **kwargs):
-        super(UniversitySpider, self).__init__(*args, **kwargs)
+        super(U2Spider, self).__init__(*args, **kwargs)
         self.max_num = int(max_num)
 
     def parse(self, response):

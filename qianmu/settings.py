@@ -14,13 +14,18 @@ BOT_NAME = 'qianmu'
 SPIDER_MODULES = ['qianmu.spiders']
 NEWSPIDER_MODULE = 'qianmu.spiders'
 
+# Enables scheduling storing requests queue in redis.
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# Ensure all spiders share same duplicates filter through redis.
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+SCHEDULER_PERSIST = True
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_0) AppleWebKit/5352 (KHTML, like Gecko) Chrome/14.0.881.0 Safari/5352'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 4
 DOWNLOAD_DELAY = 0
 COOKIES_ENABLED = False
 
@@ -65,7 +70,7 @@ DOWNLOADER_MIDDLEWARES = {
 #关闭下载器中间件
 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
 # 添加自定义的proxy中间件
-'qianmu.middlewares.proxy.RandomProxyMiddleware': 749,
+# 'qianmu.middlewares.proxy.RandomProxyMiddleware': 749,
 }
 
 # 使用代理
@@ -81,9 +86,10 @@ PROXIES = ['http://pc1120:pc1120@123.249.34.10:888', 'http://pc1120:pc1120@1.82.
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'qianmu.pipelines.CheckPipeline': 300,
-   'qianmu.pipelines.RedisPipeline': 301,
-   'qianmu.pipelines.MysqlPipeline': 302,
+  'scrapy_redis.pipelines.RedisPipeline': 300,
+  #  'qianmu.pipelines.CheckPipeline': 300,
+  #  'qianmu.pipelines.RedisPipeline': 301,
+  #  'qianmu.pipelines.MysqlPipeline': 302,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -75,8 +75,8 @@ class MysqlPipeline(object):
         "VALUES  (" + ','.join(['%s'] * 8) +  ")"
         self.cur.execute(sql, values)
         self.conn.commit()
-        logger.info(self.cur._last_executed)
-        logger.info('mysql: add %s to universities' % item['name'])
+        # logger.info(self.cur._last_executed)
+        logger.info('mysql: insert %s to universities' % item['name'])
         return item
 
     def close_spider(self, spider):
