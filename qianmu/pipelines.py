@@ -56,34 +56,30 @@ class MysqlPipeline(object):
     def __init__(self):
         self.conn = None
         self.cur = None
-
+    
     def open_spider(self, spider):
-        """当spider被开启时，这个方法被调用"""
         self.conn = pymysql.connect(
-            host='localhost',
-            port=3306,
-            user='root',
-            passwd='',
-            db='qianmu',
+            host='localhost', 
+            port=3306, 
+            user='root', 
+            passwd='', 
+            db='qianmu', 
             charset='utf8')
         self.cur = self.conn.cursor()
+
+    def process_item(self, item, spider):
+        cols = item.keys()
+        values = [item[col] for col in cols]
+        cols = ['`%s`' % key for key in cols]
+        sql = "INSERT INTO `universities` (" + ','.join(cols) + ")"\
+        "VALUES  (" + ','.join(['%s'] * 8) +  ")"
+        self.cur.execute(sql, values)
+        self.conn.commit()
+        logger.info(self.cur._last_executed)
+        logger.info('mysql: add %s to universities' % item['name'])
+        return item
 
     def close_spider(self, spider):
         """当spider被关闭时，这个方法被调用"""
         self.cur.close()
         self.conn.close()
-
-    def process_item(self, item, spider):
-        sql = "INSERT INTO `universities` (`name`, `rank`, `country`,"\
-        "`state`, `city`, `undergraduate_num`, `postgraduate_num`, `website`)"\
-        "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-        logger.info(sql)
-        self.cur.execute(sql, (item['name'], item['rank'], item['country'],
-        item['state'], item['city'], item['undergraduate_num'],
-        item['postgraduate_num'], item['website']))
-        self.conn.commit()
-        logger.info(self.cur._last_executed)
-        logger.info('mysql: add %s to universities' % (item['name'],))
-        return item
-
-
