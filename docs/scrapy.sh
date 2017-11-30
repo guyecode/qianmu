@@ -42,3 +42,9 @@ scrapy parse http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5
 [s]   shelp()           打印可用的内置方法和变量。
 [s]   view(response)    将当前的response的页面在浏览器内打开
 
+
+# 运行爬虫程序，最多抓取5个页面，并将结果存储到university.csv，文件格式设置为csv
+scrapy crawl university -L INFO -a max_num=5 -o university.csv -t csv
+# 打开excel,新建一个空白excel文件，然后选择文件>>导入,选择csv文件，
+# 点击导入，选择刚才的university.csv文件。
+# 在弹出的窗口中，选择文件来源为utf-8,然后顺着点下一步后点击完成。
