@@ -7,7 +7,7 @@ from scrapy.exceptions import NotConfigured
 
 logger = logging.getLogger()
 
-def reform_proxy(url):
+def reform_url(url):
     proxy_type, user, password, hostport = _parse_proxy(url)
     return '%s://%s' % (proxy_type, hostport)
 
