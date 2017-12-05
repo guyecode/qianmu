@@ -39,7 +39,7 @@ class RandomProxyMiddleware(object):
             self.stats[cur_proxy] += 1
         if self.stats[cur_proxy] > self.max_failed:
             for proxy in self.proxies:
-                if cur_proxy.endswith(proxy.split('@')[-1]):
+                if reform_url(proxy) == cur_proxy:
                     self.proxies.remove(proxy)
                     break
             logger.warn('proxy %s remove from proxies list' % cur_proxy)
