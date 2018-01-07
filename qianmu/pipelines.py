@@ -68,11 +68,9 @@ class MysqlPipeline(object):
         self.cur = self.conn.cursor()
 
     def process_item(self, item, spider):
-        cols = item.keys()
-        values = [item[col] for col in cols]
-        cols = ['`%s`' % key for key in cols]
-        sql = "INSERT INTO `universities` (" + ','.join(cols) + ")"\
-        "VALUES  (" + ','.join(['%s'] * 8) +  ")"
+        cols, values = zip(*item.items())
+        sql = "INSERT INTO `universities`(%s) VALUES (%s)" % \
+              (','.join(cols), ','.join(['%s'] * len(cols)))
         self.cur.execute(sql, values)
         self.conn.commit()
         logger.info(self.cur._last_executed)
