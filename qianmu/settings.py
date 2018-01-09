@@ -64,13 +64,21 @@ DOWNLOADER_MIDDLEWARES = {
 'qianmu.middlewares.useragent.RandomUserAgentMiddleware': 500,
 #关闭下载器中间件
 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-# 添加自定义的proxy中间件
+# 添加自定义的proxy中间件，注意优先级要恰好在系统的proxy中间件之前，使用settings['DOWNLOADER_MIDDLEWARES_BASE']查看
 'qianmu.middlewares.proxy.RandomProxyMiddleware': 749,
 }
 
 # 使用代理
 HTTPPROXY_ENABLED = True
-PROXIES = ['http://pc1120:pc1120@123.249.34.10:888', 'http://pc1120:pc1120@1.82.230.113:888']
+PROXIES = [
+    'http://ms0108:ms0108@182.84.98.201:888',
+    'http://ms0108:ms0108@117.41.187.112:888',
+    'http://ms0108:ms0108@210.16.189.75:888',
+    'http://ms0108:ms0108@1.82.230.108:888',
+    'http://ms0108:ms0108@117.41.184.182:888',
+    'http://ms0108:ms0108@222.73.48.188:888',
+    'http://ms0108:ms0108@103.21.142.201:888',
+    ]
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

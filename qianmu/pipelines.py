@@ -46,6 +46,7 @@ class RedisPipeline(object):
         self.r = redis.Redis()
 
     def process_item(self, item, spider):
+        # 将爬取到的大学名字添加到redis的一个set中
         self.r.sadd(spider.name, item['name'])
         logger.info('redis: add %s to list %s' % (item['name'], spider.name))
         return item
@@ -58,6 +59,7 @@ class MysqlPipeline(object):
         self.cur = None
     
     def open_spider(self, spider):
+        # 初始化mysql连接
         self.conn = pymysql.connect(
             host='localhost', 
             port=3306, 
@@ -65,16 +67,22 @@ class MysqlPipeline(object):
             passwd='', 
             db='qianmu', 
             charset='utf8')
+        # 初始化游标对象
         self.cur = self.conn.cursor()
 
     def process_item(self, item, spider):
+        # 将item重组成keys，values的形式，并一一对应
         cols, values = zip(*item.items())
+        # 拼装SQL语句
         sql = "INSERT INTO `universities`(%s) VALUES (%s)" % \
               (','.join(cols), ','.join(['%s'] * len(cols)))
+        # 执行并commit
         self.cur.execute(sql, values)
         self.conn.commit()
+        # 打印出刚才执行的SQL语句
         logger.info(self.cur._last_executed)
         logger.info('mysql: add %s to universities' % item['name'])
+        # 返回item以便后续的pipeline处理
         return item
 
     def close_spider(self, spider):
