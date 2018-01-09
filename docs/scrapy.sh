@@ -5,11 +5,10 @@ cd qianmu
 
 # 生成spider文件（注意，当前目录要在项目的根目录下）
 # scrapy genspider <spider名字> <start_url>
-scrapy genspider university 140.143.192.76:8002
-
+scrapy genspider university qianmu.iguye.com
 
 # 使用scrapy配置下载目标页面，下载完成后在浏览器内打开
-scrapy view http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
+scrapy view http://qianmu.iguye.com/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
 
 # 打印出settings文件指定配置的值，如果settings.py内没有指定，则打印出系统默认的值
 scrapy settings --get=BOT_NAME
@@ -18,16 +17,16 @@ scrapy settings --get=BOT_NAME
 scrapy crawl university
 
 # 使用srapy下载器访问链接，并在控制台内输出页面源码
-scrapy fetch http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
+scrapy fetch http://qianmu.iguye.com/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
 
 # 列出所有spider的名字
 scrapy list
 
 # 进入命令行模式
-scrapy shell http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
+scrapy shell http://qianmu.iguye.com/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
 
 # 使用spider的parse方法去处理链接的返回内容
-scrapy parse http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
+scrapy parse http://qianmu.iguye.com/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D
 
 
 

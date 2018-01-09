@@ -12,8 +12,8 @@ def filter(html):
 
 class UniversitySpider(scrapy.Spider):
     name = 'university'
-    allowed_domains = ['140.143.192.76']
-    start_urls = ['http://140.143.192.76:8002/2018USNEWS%E4%B8%96%E7%95%8C%E5%A4%A7%E5%AD%A6%E6%8E%92%E5%90%8D']
+    allowed_domains = ['qianmu.iguye.com']
+    start_urls = ['http://qianmu.iguye.com/2018USNEWS世界大学排名']
 
     def __init__(self, max_num=0, *args, **kwargs):
         super(UniversitySpider, self).__init__(*args, **kwargs)
@@ -25,7 +25,7 @@ class UniversitySpider(scrapy.Spider):
             if self.max_num and i >= self.max_num:
                 break
             if not link.startswith('http://'):
-                link = 'http://140.143.192.76:8002/%s' % link
+                link = 'http://qianmu.iguye.com/%s' % link
             request = Request(link, callback=self.parse_university)
             request.meta['rank'] = i + 1
             yield request
